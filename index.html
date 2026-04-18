@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瀚程包装 | Hancheng - 极致环保保护艺术</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        /* iPhone 官网配色方案：深黑、炭灰、哑光金 */
+        :root {
+            --bg-black: #000000;
+            --card-gray: #161617;
+            --text-white: #f5f5f7;
+            --text-gray: #86868b;
+            --accent-gold: #CFAF8B; /* 从您的图片中提取的金色 */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "SF Pro Display", "Helvetica Neue", sans-serif; }
+        body { background: var(--bg-black); color: var(--text-white); overflow-x: hidden; }
+
+        /* 顶部导航：半透明模糊效果 */
+        nav { 
+            padding: 15px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 1000; 
+            background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(20px); 
+            border-bottom: 0.5px solid #333;
+        }
+        .logo { font-weight: 700; letter-spacing: 1px; font-size: 1rem; color: var(--text-white); }
+        .nav-link { color: var(--text-gray); text-decoration: none; font-size: 0.8rem; transition: 0.3s; }
+        .nav-link:hover { color: #fff; }
+
+        /* 第一屏：沉浸式宣言 */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { 
+            font-size: clamp(3rem, 10vw, 6rem); 
+            font-weight: 700; 
+            letter-spacing: -3px; 
+            background: linear-gradient(180deg, #fff 0%, #666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        /* 互动舞台：这是“丝滑感”发生的地方 */
+        .scroll-stage { height: 400vh; position: relative; background: #000; }
+        .sticky-box { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+        /* 3D 纸卷元素 */
+        #roll {
+            position: absolute; width: 320px; height: 180px;
+            background: linear-gradient(45deg, #8b7355, #CFAF8B);
+            border-radius: 6px; z-index: 30;
+            display: flex; align-items: center; justify-content: center;
+            color: #000; font-weight: 700; box-shadow: 0 0 50px rgba(207, 175, 139, 0.2);
+        }
+
+        /* 高清图片浮现层：建议使用您上传的那张图 */
+        #hd-image {
+            position: absolute; width: 80vw; height: 75vh;
+            background: url('高清棕色蜂窝纸套 .jpg') center/cover no-repeat;
+            border-radius: 24px; opacity: 0; transform: scale(0.9); z-index: 20;
+            filter: brightness(1.1) contrast(1.1);
+            box-shadow: 0 0 100px rgba(0,0,0,1);
+        }
+
+        /* 浮动文字信息 */
+        .message { position: absolute; width: 100%; text-align: center; bottom: 15%; opacity: 0; z-index: 40; }
+        .message h2 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 10px; }
+        .message p { color: var(--text-gray); font-size: 1.2rem; }
+
+        /* 页脚 */
+        footer { padding: 80px 5%; border-top: 0.5px solid #222; text-align: center; font-size: 0.75rem; color: #444; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">HAN CHENG ®</div>
+        <a href="mailto:info@hancheng-pack.com" class="nav-link">CONTACT →</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Titanium <br>Protection.</h1>
+        <p style="color: var(--text-gray); margin-top: 20px; font-size: 1.2rem;">不仅仅是纸，更是包装界的艺术品。</p>
+    </section>
+
+    <section class="scroll-stage">
+        <div class="sticky-box">
+            <div id="roll">HANCHENG 80G</div>
+            
+            <div id="hd-image"></div>
+
+            <div class="message" id="m1">
+                <h2>100% 可回收纤维</h2>
+                <p>在东莞，我们重新定义环保保护的标准。</p>
+            </div>
+            <div class="message" id="m2">
+                <h2>3D 动态缓冲结构</h2>
+                <p>吸收高达 80% 的外力冲击，为价值护航。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 瀚程包装 (DONGGUAN) CO., LTD. · 东莞制造 走向世界</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 创建滚动时间轴：把滚动距离映射到动画进度
+        const mainTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".scroll-stage",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1.5, // 核心：数值越大，滚动越丝滑
+                pin: true   // 滚动时锁定背景
+            }
+        });
+
+        // 动画序列：像电影导演一样安排进场顺序
+        mainTl
+            // 1. 纸卷旋转、缩小并淡出
+            .to("#roll", { rotation: 360, scale: 0.2, opacity: 0, duration: 4 })
+            
+            // 2. 高清图片从背景中放大浮现
+            .to("#hd-image", { opacity: 1, scale: 1, duration: 4 }, "-=2") // 与前一动画重叠 2 秒
+            
+            // 3. 第一段文案浮现并淡出
+            .to("#m1", { opacity: 1, y: -30, duration: 2 })
+            .to("#m1", { opacity: 0, y: -60, duration: 2 }, "+=1") // 停顿 1 秒后淡出
+            
+            // 4. 第二段文案浮现
+            .to("#m2", { opacity: 1, y: -30, duration: 2 });
+    </script>
+</body>
+</html>
